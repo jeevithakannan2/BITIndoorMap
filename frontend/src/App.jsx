@@ -1,16 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import MainPage from "./components/MainPage.jsx";
+import "./styles.css";
 
 function App() {
   return (
     <>
       <div>
-        <h3>Hello</h3>
+        <MainPage />
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
