@@ -11,6 +11,7 @@ const LeafletMap = () => {
 
     const map = L.map("map", {
       attributionControl: false,
+      zoomControl: false, // Disable default zoom control
       zoomSnap: 1,
       zoomDelta: 1,
       wheelDebounceTime: 100,
@@ -26,6 +27,11 @@ const LeafletMap = () => {
         bounds: bounds
       },
     ).addTo(map);
+
+    // Add custom positioned zoom control
+    L.control.zoom({
+      position: 'bottomright'
+    }).addTo(map);
 
     // Custom zoom handler
     const customZoomHandler = (e) => {
