@@ -25,8 +25,13 @@ const MenuBar = () => {
 
 const styles = {
   nav: {
-    backgroundColor: '#333',
+    backgroundColor: 'rgba(51, 51, 51, 0.8)', // Semi-transparent background
     padding: '10px 0',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000, // Ensure it's above the map
   },
   ul: {
     listStyle: 'none',
