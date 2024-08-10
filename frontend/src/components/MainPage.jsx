@@ -6,7 +6,7 @@ const LeafletMap = () => {
   useEffect(() => {
     const map = L.map("map", {
       attributionControl: false,
-    }).setView([11.4956, 77.2777], 16);
+    }).setView([11.4956, 77.2777], 18);
 
     const tilesource_layer = L.tileLayer(
       "http://localhost:5173/map/{z}/{x}/{y}.png",
