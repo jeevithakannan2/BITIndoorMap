@@ -1,13 +1,21 @@
+import React, { useState } from 'react';
 import MainPage from "./components/MainPage.jsx";
 import "./styles.css";
 import MenuBar from "./components/MenuBar.jsx";
+import LoginForm from './components/LoginForm'; 
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <>
       <div style={styles.container}>
         <MenuBar />
-        <MainPage />
+        {isLoggedIn ? <MainPage /> : <LoginForm onLogin={handleLogin} />} 
       </div>
     </>
   );
