@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div style={styles.container}>
-      <MenuBar />
+        <MenuBar />
         <MainPage />
       </div>
     </>
