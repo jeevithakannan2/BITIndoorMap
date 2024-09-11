@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User user) {
-        if (userService.authenticateUser(userService.getUsername(userId), userService.getPassword(userId))) {
+        if (userService.authenticateUser(userService.getUsername(user.getId()), userService.getPassword(user.getId()))) {
             return ResponseEntity.ok("Login successful!");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
