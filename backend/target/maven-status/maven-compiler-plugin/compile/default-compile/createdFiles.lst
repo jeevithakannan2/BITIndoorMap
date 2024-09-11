@@ -1,1 +1,5 @@
-Map.class
+com\JS\BITIndoorMap\BitIndoorMapApplication.class
+com\JS\BITIndoorMap\controller\UserController.class
+com\JS\BITIndoorMap\service\UserService.class
+com\JS\BITIndoorMap\entity\User.class
+com\JS\BITIndoorMap\repository\UserRepository.class

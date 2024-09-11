@@ -1,14 +1,20 @@
 package com.JS.BITIndoorMap.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Placeholder for actual authentication logic (e.g., database interaction)
+import com.JS.BITIndoorMap.entity.User;
+import com.JS.BITIndoorMap.repository.UserRepository;
+
 @Service
 public class UserService {
 
+    @Autowired
+    private UserRepository userRepository;
+
     public boolean authenticateUser(String username, String password) {
-        // TODO: Implement actual authentication logic (e.g., check against database)
-        if (username.equals("testuser") && password.equals("password")) {
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
             return true;
         } else {
             return false;
@@ -16,26 +22,12 @@ public class UserService {
     }
 
     public String getUsername(Long userId) {
-        // TODO: Fetch username from the database based on userId
-        return "testuser"; // Replace with actual database logic
+        User user = userRepository.findById(userId).orElse(null);
+        return user != null ? user.getUsername() : null;
     }
 
     public String getPassword(Long userId) {
-        // TODO: Fetch password from the database based on userId
-        return "password"; // Replace with actual database logic
+        User user = userRepository.findById(userId).orElse(null);
+        return user != null ? user.getPassword() : null;
     }
 }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
