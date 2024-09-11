@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import com.JS.BITIndoorMap.entity.User;
 import com.JS.BITIndoorMap.service.UserService;
 
@@ -25,5 +27,15 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
+    }
+
+    @GetMapping("/{userId}/username")
+    public String getUsername(@PathVariable Long userId) {
+        return userService.getUsername(userId);
+    }
+
+    @GetMapping("/{userId}/password")
+    public String getPassword(@PathVariable Long userId) {
+        return userService.getPassword(userId);
     }
 }

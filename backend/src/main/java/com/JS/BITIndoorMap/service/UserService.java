@@ -14,4 +14,14 @@ public class UserService {
             return false;
         }
     }
+
+    public String getUsername(Long userId) {
+        // TODO: Fetch username from the database based on userId
+        return "testuser"; // Replace with actual database logic
+    }
+
+    public String getPassword(Long userId) {
+        // TODO: Fetch password from the database based on userId
+        return "password"; // Replace with actual database logic
+    }
 }
