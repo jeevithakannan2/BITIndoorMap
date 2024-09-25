@@ -32,7 +32,7 @@ const LoginForm = ({ onLogin }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h2 className="text-2xl mb-4">Login</h2>
       <form onSubmit={handleSubmit} className="w-full max-w-xs">
         <div className="mb-4">
@@ -61,7 +61,7 @@ const LoginForm = ({ onLogin }) => {
           Login
         </button>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-center">
         New user? <Link to="/register" className="text-blue-500 hover:text-blue-700">Click here to register</Link>
       </p>
     </div>

@@ -163,7 +163,7 @@ const LeafletMap = () => {
     <div className="relative w-full h-screen">
       <div id="map" className="w-full h-full"></div>
       {showFilters && (
-        <div className="absolute top-2 right-12 bg-white p-3 rounded-md shadow-lg z-[1000]">
+        <div className="absolute top-2 right-2 md:right-12 bg-white p-3 rounded-md shadow-lg z-[1000] max-w-xs w-full md:w-auto">
           <h3 className="font-bold mb-2">Filters</h3>
           {Object.entries(filters).map(([key, value]) => (
             <label key={key} className="block mb-1">

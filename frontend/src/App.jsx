@@ -34,9 +34,9 @@ function App() {
 
   return (
     <Router>
-      <div className="flex w-full h-screen">
+      <div className="flex flex-col md:flex-row w-full h-screen">
         {isLoggedIn && <MenuBar onLogout={handleLogout} isLoggedIn={isLoggedIn} />}
-        <div className="flex-grow">
+        <div className="flex-grow overflow-auto md:ml-28">
           <Routes>
             <Route path="/" element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />} />
             <Route path="/login" element={!isLoggedIn ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/" />} />

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 
 const MenuBar = ({ onLogout, isLoggedIn }) => {
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
@@ -32,9 +33,9 @@ const MenuBar = ({ onLogout, isLoggedIn }) => {
 
   return (
     <>
-      <nav className="bg-gray-800 h-full w- p-4">
-        <div className="flex flex-col h-full">
-          <ul className="flex-grow space-y-4">
+      <nav className="bg-gray-800 h-full w-28 fixed left-0 top-0 z-[1000] hidden md:block">
+        <div className="p-4 flex flex-col h-full">
+          <ul className="space-y-4 mb-auto">
             {menuItems.map((item, index) => (
               <li key={index} className="list-none">
                 {item.to ? (
@@ -52,18 +53,57 @@ const MenuBar = ({ onLogout, isLoggedIn }) => {
               </li>
             ))}
           </ul>
-          <div className="mt-auto">
-            {isLoggedIn && (
+          {isLoggedIn && (
+            <div className="mt-auto">
               <button
                 onClick={onLogout}
                 className="text-white hover:text-gray-400 w-full text-left"
               >
                 Logout
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </nav>
+      <nav className="bg-gray-800 h-full w-28 fixed left-0 top-0 transform transition-transform duration-300 ease-in-out z-[1000] md:hidden"
+           style={{ transform: showMobileMenu ? 'translateX(0)' : 'translateX(-100%)' }}>
+        <div className="p-4 flex flex-col h-full">
+          <ul className="space-y-4 mb-auto">
+            {menuItems.map((item, index) => (
+              <li key={index} className="list-none">
+                {item.to ? (
+                  <Link to={item.to} className="text-white hover:text-gray-400 block">
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={item.onClick}
+                    className="text-white hover:text-gray-400 text-left w-full"
+                  >
+                    {item.label}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+          {isLoggedIn && (
+            <div className="mt-auto">
+              <button
+                onClick={onLogout}
+                className="text-white hover:text-gray-400 w-full text-left"
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </nav>
+      <button
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        className="fixed top-4 left-4 z-[1001] bg-gray-800 text-white p-2 rounded-md focus:outline-none md:hidden"
+      >
+        {showMobileMenu ? '✕' : '☰'}
+      </button>
 
       {showAbout && renderPopup("About Us", "This is the about section.", () => setShowAbout(false))}
       {showContact && renderPopup("Contact Us", "This is the contact section.", () => setShowContact(false))}
