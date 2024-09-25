@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import MainPage from "./components/MainPage.jsx";
 import "./styles.css";
 import MenuBar from "./components/MenuBar.jsx";
@@ -7,14 +8,23 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Cookies.get('isLoggedIn') === 'true';
+  });
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      Cookies.set('isLoggedIn', 'true', { expires: 7 }); // Cookie expires in 7 days
+    } else {
+      Cookies.remove('isLoggedIn');
+    }
+  }, [isLoggedIn]);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
 
   const handleRegister = () => {
-    // You might want to automatically log in the user after registration
     setIsLoggedIn(true);
   };
 
