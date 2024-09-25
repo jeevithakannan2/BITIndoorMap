@@ -92,7 +92,7 @@ const LeafletMap = () => {
 
     // Create custom filter control
     L.Control.FilterButton = L.Control.extend({
-      onAdd: function () {
+      onAdd: function (map) {
         const button = L.DomUtil.create(
           "button",
           "leaflet-bar leaflet-control leaflet-control-custom",
@@ -102,7 +102,9 @@ const LeafletMap = () => {
         button.style.width = "30px";
         button.style.height = "30px";
         button.style.cursor = "pointer";
-        button.onclick = () => setShowFilters(!showFilters);
+        L.DomEvent.on(button, "click", function () {
+          setShowFilters((prev) => !prev);
+        });
         return button;
       },
     });
@@ -124,7 +126,7 @@ const LeafletMap = () => {
       mapInstance.off("click"); // Remove the click event listener
       mapInstance.remove();
     };
-  }, [showFilters]);
+  }, []); // Remove showFilters dependency
 
   useEffect(() => {
     if (map && Object.keys(layerGroups).length > 0) {
@@ -160,25 +162,26 @@ const LeafletMap = () => {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
-      <div id="map" style={{ width: "100%", height: "100%" }}></div>
+    <div className="relative w-full h-screen">
+      <div id="map" className="w-full h-full"></div>
       {showFilters && (
-        <div style={styles.filterPopup}>
-          <h3>Filters</h3>
+        <div className="absolute top-2 right-2 md:right-12 bg-white p-3 rounded-md shadow-lg z-[1000] max-w-xs w-full md:w-auto">
+          <h3 className="font-bold mb-2">Filters</h3>
           {Object.entries(filters).map(([key, value]) => (
-            <label key={key} style={styles.filterLabel}>
+            <label key={key} className="block mb-1">
               <input
                 type="checkbox"
                 name={key}
                 checked={value}
                 onChange={handleFilterChange}
+                className="mr-2"
               />
               {key}
             </label>
           ))}
           <button
             onClick={() => setShowFilters(false)}
-            style={styles.closeButton}
+            className="mt-2 px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors duration-200"
           >
             Close
           </button>
@@ -186,31 +189,6 @@ const LeafletMap = () => {
       )}
     </div>
   );
-};
-
-const styles = {
-  filterPopup: {
-    position: "absolute",
-    top: "10px",
-    right: "50px",
-    backgroundColor: "white",
-    padding: "10px",
-    borderRadius: "5px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-    zIndex: 1000,
-  },
-  filterLabel: {
-    display: "block",
-    marginBottom: "5px",
-  },
-  closeButton: {
-    marginTop: "10px",
-    padding: "5px 10px",
-    backgroundColor: "#f0f0f0",
-    border: "none",
-    borderRadius: "3px",
-    cursor: "pointer",
-  },
 };
 
 export default LeafletMap;

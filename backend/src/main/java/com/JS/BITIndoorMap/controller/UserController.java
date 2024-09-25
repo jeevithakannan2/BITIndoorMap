@@ -1,31 +1,35 @@
 package com.JS.BITIndoorMap.controller;
 
+import com.JS.BITIndoorMap.entity.User;
+import com.JS.BITIndoorMap.service.UserService;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import com.JS.BITIndoorMap.entity.User;
-import com.JS.BITIndoorMap.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        if (userService.authenticateUser(user.getUsername(), user.getPassword())) {
-            return ResponseEntity.ok("Login successful!");
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
+        if (
+            userService.authenticateUser(user.getUsername(), user.getPassword())
+        ) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login successful!");
+            response.put("username", user.getUsername());
+            return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                Map.of("message", "Invalid credentials")
+            );
         }
     }
 
@@ -35,7 +39,9 @@ public class UserController {
             userService.registerUser(user);
             return ResponseEntity.ok("Registration successful!");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                e.getMessage()
+            );
         }
     }
 

@@ -1,52 +1,94 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Cookies from "js-cookie";
 import MainPage from "./components/MainPage.jsx";
 import "./styles.css";
 import MenuBar from "./components/MenuBar.jsx";
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Cookies.get("isLoggedIn") === "true";
+  });
+  const [username, setUsername] = useState(Cookies.get("username") || "");
 
-  const handleLogin = () => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      Cookies.set("isLoggedIn", "true", { expires: 7 });
+      Cookies.set("username", username, { expires: 7 });
+    } else {
+      Cookies.remove("isLoggedIn");
+      Cookies.remove("username");
+    }
+  }, [isLoggedIn, username]);
+
+  const handleLogin = (loggedInUsername) => {
     setIsLoggedIn(true);
+    setUsername(loggedInUsername);
   };
 
-  const handleRegister = () => {
-    setIsRegistering(false);
+  const handleRegister = (registeredUsername) => {
+    setIsLoggedIn(true);
+    setUsername(registeredUsername);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUsername("");
   };
 
   return (
-    <div className="relative w-full h-screen">
-      <MenuBar />
-      {isLoggedIn ? (
-        <MainPage />
-      ) : isRegistering ? (
-        <RegisterForm onRegister={handleRegister} />
-      ) : (
-        <LoginForm onLogin={handleLogin} />
-      )}
-      {!isLoggedIn && (
-        <div className="absolute bottom-4 right-4">
-          {isRegistering ? (
-            <button
-              onClick={() => setIsRegistering(false)}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Back to Login
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsRegistering(true)}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register
-            </button>
-          )}
+    <Router>
+      <div className="flex flex-col md:flex-row w-full h-screen">
+        {isLoggedIn && (
+          <MenuBar
+            onLogout={handleLogout}
+            isLoggedIn={isLoggedIn}
+            username={username}
+          />
+        )}
+        <div className="flex-grow overflow-auto md:ml-28">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isLoggedIn ? (
+                  <MainPage username={username} />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                !isLoggedIn ? (
+                  <LoginForm onLogin={handleLogin} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                !isLoggedIn ? (
+                  <RegisterForm onRegister={handleRegister} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+          </Routes>
         </div>
-      )}
-    </div>
+      </div>
+    </Router>
   );
 }
 
