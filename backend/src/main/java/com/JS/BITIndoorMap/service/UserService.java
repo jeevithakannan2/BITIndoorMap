@@ -21,6 +21,15 @@ public class UserService {
         }
     }
 
+    public boolean registerUser(User user) {
+        if (userRepository.findByUsername(user.getUsername()) == null) {
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     public String getUsername(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         return user != null ? user.getUsername() : null;

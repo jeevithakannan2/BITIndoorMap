@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 
-const LoginForm = ({ onLogin }) => {
+const RegisterForm = ({ onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:8080/api/users/login', { 
+      const response = await fetch('http://localhost:8080/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -17,20 +23,20 @@ const LoginForm = ({ onLogin }) => {
       });
 
       if (response.ok) {
-        onLogin(); 
+        onRegister();
       } else {
         const errorData = await response.json();
-        alert(errorData); 
+        alert(errorData);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      alert('An error occurred during login.');
+      console.error('Registration error:', error);
+      alert('An error occurred during registration.');
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <h2 className="text-2xl mb-4">Login</h2>
+      <h2 className="text-2xl mb-4">Register</h2>
       <form onSubmit={handleSubmit} className="w-full max-w-xs">
         <div className="mb-4">
           <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>
@@ -54,12 +60,23 @@ const LoginForm = ({ onLogin }) => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
+        <div className="mb-4">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
         <button type="submit" className="w-full py-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-          Login
+          Register
         </button>
       </form>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
