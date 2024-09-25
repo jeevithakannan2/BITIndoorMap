@@ -95,15 +95,15 @@ const LeafletMap = () => {
       onAdd: function (map) {
         const button = L.DomUtil.create(
           "button",
-          "leaflet-bar leaflet-control leaflet-control-custom"
+          "leaflet-bar leaflet-control leaflet-control-custom",
         );
         button.innerHTML = "🔍"; // Filter icon
         button.style.fontSize = "20px";
         button.style.width = "30px";
         button.style.height = "30px";
         button.style.cursor = "pointer";
-        L.DomEvent.on(button, 'click', function() {
-          setShowFilters(prev => !prev);
+        L.DomEvent.on(button, "click", function () {
+          setShowFilters((prev) => !prev);
         });
         return button;
       },
