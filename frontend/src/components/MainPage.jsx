@@ -92,17 +92,19 @@ const LeafletMap = () => {
 
     // Create custom filter control
     L.Control.FilterButton = L.Control.extend({
-      onAdd: function () {
+      onAdd: function (map) {
         const button = L.DomUtil.create(
           "button",
-          "leaflet-bar leaflet-control leaflet-control-custom",
+          "leaflet-bar leaflet-control leaflet-control-custom"
         );
         button.innerHTML = "🔍"; // Filter icon
         button.style.fontSize = "20px";
         button.style.width = "30px";
         button.style.height = "30px";
         button.style.cursor = "pointer";
-        button.onclick = () => setShowFilters(!showFilters);
+        L.DomEvent.on(button, 'click', function() {
+          setShowFilters(prev => !prev);
+        });
         return button;
       },
     });
@@ -124,7 +126,7 @@ const LeafletMap = () => {
       mapInstance.off("click"); // Remove the click event listener
       mapInstance.remove();
     };
-  }, [showFilters]);
+  }, []); // Remove showFilters dependency
 
   useEffect(() => {
     if (map && Object.keys(layerGroups).length > 0) {
