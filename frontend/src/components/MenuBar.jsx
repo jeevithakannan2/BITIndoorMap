@@ -12,16 +12,19 @@ const MenuBar = () => {
 
   return (
     <>
-      <nav style={styles.nav}>
-        <ul style={styles.ul}>
+      <nav className="bg-gray-800 p-4">
+        <ul className="flex space-x-4">
           {menuItems.map((item, index) => (
-            <li key={index} style={styles.li}>
+            <li key={index} className="list-none">
               {item.href ? (
-                <a href={item.href} style={styles.a}>
+                <a href={item.href} className="text-white hover:text-gray-400">
                   {item.label}
                 </a>
               ) : (
-                <button onClick={item.onClick} style={styles.button}>
+                <button
+                  onClick={item.onClick}
+                  className="text-white hover:text-gray-400"
+                >
                   {item.label}
                 </button>
               )}
@@ -31,13 +34,13 @@ const MenuBar = () => {
       </nav>
 
       {showAbout && (
-        <div style={styles.popup}>
-          <div style={styles.popupContent}>
-            <h2>About Us</h2>
-            <p>This is the about section.</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-4">About Us</h2>
+            <p className="mb-4">This is the about section.</p>
             <button
               onClick={() => setShowAbout(false)}
-              style={styles.closeButton}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
             >
               Close
             </button>
@@ -46,13 +49,13 @@ const MenuBar = () => {
       )}
 
       {showContact && (
-        <div style={styles.popup}>
-          <div style={styles.popupContent}>
-            <h2>Contact Us</h2>
-            <p>This is the contact section.</p>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Contact Us</h2>
+            <p className="mb-4">This is the contact section.</p>
             <button
               onClick={() => setShowContact(false)}
-              style={styles.closeButton}
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
             >
               Close
             </button>
@@ -61,68 +64,6 @@ const MenuBar = () => {
       )}
     </>
   );
-};
-
-const styles = {
-  nav: {
-    backgroundColor: "rgba(51, 51, 51, 0.8)", // Semi-transparent background
-    padding: "10px 0",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000, // Ensure it's above the map
-  },
-  ul: {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-    display: "flex",
-    justifyContent: "center",
-  },
-  li: {
-    margin: "0 15px",
-  },
-  a: {
-    color: "white",
-    textDecoration: "none",
-    fontSize: "16px",
-  },
-  button: {
-    background: "none",
-    border: "none",
-    color: "white",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
-  popup: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 2000,
-  },
-  popupContent: {
-    backgroundColor: "white",
-    padding: "20px",
-    borderRadius: "5px",
-    maxWidth: "500px",
-    width: "90%",
-  },
-  closeButton: {
-    marginTop: "10px",
-    padding: "5px 10px",
-    backgroundColor: "#333",
-    color: "white",
-    border: "none",
-    borderRadius: "3px",
-    cursor: "pointer",
-  },
 };
 
 export default MenuBar;
