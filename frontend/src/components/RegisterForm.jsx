@@ -4,12 +4,13 @@ const RegisterForm = ({ onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      setErrorMessage('Passwords do not match');
       return;
     }
 
@@ -25,18 +26,23 @@ const RegisterForm = ({ onRegister }) => {
       if (response.ok) {
         onRegister();
       } else {
-        const errorData = await response.json();
-        alert(errorData);
+        const errorData = await response.text();
+        setErrorMessage(errorData);
       }
     } catch (error) {
       console.error('Registration error:', error);
-      alert('An error occurred during registration.');
+      setErrorMessage('An error occurred during registration.');
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl mb-4">Register</h2>
+      {errorMessage && (
+        <div className="mb-4 text-red-500">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="w-full max-w-xs">
         <div className="mb-4">
           <label htmlFor="username" className="block text-sm font-medium text-gray-700">Username:</label>

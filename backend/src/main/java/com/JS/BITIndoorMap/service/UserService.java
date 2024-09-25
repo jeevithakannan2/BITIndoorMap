@@ -22,12 +22,11 @@ public class UserService {
     }
 
     public boolean registerUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) == null) {
-            userRepository.save(user);
-            return true;
-        } else {
-            return false;
+        if (userRepository.findByUsername(user.getUsername()) != null) {
+            throw new IllegalArgumentException("Username already exists");
         }
+        userRepository.save(user);
+        return true;
     }
     
     public String getUsername(Long userId) {

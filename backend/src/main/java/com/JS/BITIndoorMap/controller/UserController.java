@@ -31,12 +31,14 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        if (userService.registerUser(user)) {
+        try {
+            userService.registerUser(user);
             return ResponseEntity.ok("Registration successful!");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration failed");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-    }  
+    }
+
     @GetMapping("/{userId}/username")
     public String getUsername(@PathVariable Long userId) {
         return userService.getUsername(userId);
