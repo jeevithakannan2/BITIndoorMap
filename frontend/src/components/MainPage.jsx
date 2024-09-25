@@ -162,7 +162,7 @@ const LeafletMap = () => {
   };
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="w-full h-full">
       <div id="map" className="w-full h-full"></div>
       {showFilters && (
         <div className="absolute top-2 right-2 md:right-12 bg-white p-3 rounded-md shadow-lg z-[1000] max-w-xs w-full md:w-auto">

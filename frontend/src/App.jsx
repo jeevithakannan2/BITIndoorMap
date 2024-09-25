@@ -53,7 +53,7 @@ function App() {
             username={username}
           />
         )}
-        <div className="flex-grow overflow-auto md:ml-28">
+        <div className="flex-grow overflow-auto">
           <Routes>
             <Route
               path="/"
