@@ -32,20 +32,19 @@ const MenuBar = ({ onLogout, isLoggedIn }) => {
 
   return (
     <>
-      <nav className="bg-gray-800 p-4">
-        <div className="flex justify-between items-center">
-          <div className="w-1/3"></div> {/* Spacer */}
-          <ul className="flex space-x-4 justify-center w-1/3">
+      <nav className="bg-gray-800 h-full w- p-4">
+        <div className="flex flex-col h-full">
+          <ul className="flex-grow space-y-4">
             {menuItems.map((item, index) => (
               <li key={index} className="list-none">
                 {item.to ? (
-                  <Link to={item.to} className="text-white hover:text-gray-400">
+                  <Link to={item.to} className="text-white hover:text-gray-400 block">
                     {item.label}
                   </Link>
                 ) : (
                   <button
                     onClick={item.onClick}
-                    className="text-white hover:text-gray-400"
+                    className="text-white hover:text-gray-400 text-left w-full"
                   >
                     {item.label}
                   </button>
@@ -53,11 +52,11 @@ const MenuBar = ({ onLogout, isLoggedIn }) => {
               </li>
             ))}
           </ul>
-          <div className="w-1/3 flex justify-end">
+          <div className="mt-auto">
             {isLoggedIn && (
               <button
                 onClick={onLogout}
-                className="text-white hover:text-gray-400"
+                className="text-white hover:text-gray-400 w-full text-left"
               >
                 Logout
               </button>

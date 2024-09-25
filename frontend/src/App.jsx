@@ -34,13 +34,15 @@ function App() {
 
   return (
     <Router>
-      <div className="relative w-full h-screen">
-        <MenuBar onLogout={handleLogout} isLoggedIn={isLoggedIn} />
-        <Routes>
-          <Route path="/" element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />} />
-          <Route path="/login" element={!isLoggedIn ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/" />} />
-          <Route path="/register" element={!isLoggedIn ? <RegisterForm onRegister={handleRegister} /> : <Navigate to="/" />} />
-        </Routes>
+      <div className="flex w-full h-screen">
+        {isLoggedIn && <MenuBar onLogout={handleLogout} isLoggedIn={isLoggedIn} />}
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />} />
+            <Route path="/login" element={!isLoggedIn ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/" />} />
+            <Route path="/register" element={!isLoggedIn ? <RegisterForm onRegister={handleRegister} /> : <Navigate to="/" />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
