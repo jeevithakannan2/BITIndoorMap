@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginForm = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,8 @@ const LoginForm = ({ onLogin }) => {
       });
 
       if (response.ok) {
-        onLogin(); 
+        onLogin();
+        navigate('/');
       } else {
         const errorData = await response.json();
         alert(errorData); 
@@ -58,6 +61,9 @@ const LoginForm = ({ onLogin }) => {
           Login
         </button>
       </form>
+      <p className="mt-4 text-sm">
+        New user? <Link to="/register" className="text-blue-500 hover:text-blue-700">Click here to register</Link>
+      </p>
     </div>
   );
 };

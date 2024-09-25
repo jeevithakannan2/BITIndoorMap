@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainPage from "./components/MainPage.jsx";
 import "./styles.css";
 import MenuBar from "./components/MenuBar.jsx";
@@ -7,46 +8,31 @@ import RegisterForm from './components/RegisterForm';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(false);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
 
   const handleRegister = () => {
-    setIsRegistering(false);
+    // You might want to automatically log in the user after registration
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
   };
 
   return (
-    <div className="relative w-full h-screen">
-      <MenuBar />
-      {isLoggedIn ? (
-        <MainPage />
-      ) : isRegistering ? (
-        <RegisterForm onRegister={handleRegister} />
-      ) : (
-        <LoginForm onLogin={handleLogin} />
-      )}
-      {!isLoggedIn && (
-        <div className="absolute bottom-4 right-4">
-          {isRegistering ? (
-            <button
-              onClick={() => setIsRegistering(false)}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Back to Login
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsRegistering(true)}
-              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Register
-            </button>
-          )}
-        </div>
-      )}
-    </div>
+    <Router>
+      <div className="relative w-full h-screen">
+        <MenuBar onLogout={handleLogout} isLoggedIn={isLoggedIn} />
+        <Routes>
+          <Route path="/" element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={!isLoggedIn ? <LoginForm onLogin={handleLogin} /> : <Navigate to="/" />} />
+          <Route path="/register" element={!isLoggedIn ? <RegisterForm onRegister={handleRegister} /> : <Navigate to="/" />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

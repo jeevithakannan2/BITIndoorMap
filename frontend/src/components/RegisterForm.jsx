@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const RegisterForm = ({ onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ const RegisterForm = ({ onRegister }) => {
 
       if (response.ok) {
         onRegister();
+        navigate('/');
       } else {
         const errorData = await response.text();
         setErrorMessage(errorData);
@@ -81,6 +84,9 @@ const RegisterForm = ({ onRegister }) => {
           Register
         </button>
       </form>
+      <p className="mt-4 text-sm">
+        Already have an account? <Link to="/login" className="text-blue-500 hover:text-blue-700">Click here to login</Link>
+      </p>
     </div>
   );
 };

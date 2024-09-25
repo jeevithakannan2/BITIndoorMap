@@ -1,14 +1,19 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const MenuBar = () => {
+const MenuBar = ({ onLogout, isLoggedIn }) => {
   const [showAbout, setShowAbout] = useState(false);
   const [showContact, setShowContact] = useState(false);
 
   const menuItems = [
-    { label: "Home", href: "/" },
+    { label: "Home", to: "/" },
     { label: "About", onClick: () => setShowAbout(true) },
     { label: "Contact", onClick: () => setShowContact(true) },
   ];
+
+  if (isLoggedIn) {
+    menuItems.push({ label: "Logout", onClick: onLogout })
+  }
 
   return (
     <>
@@ -16,10 +21,10 @@ const MenuBar = () => {
         <ul className="flex space-x-4">
           {menuItems.map((item, index) => (
             <li key={index} className="list-none">
-              {item.href ? (
-                <a href={item.href} className="text-white hover:text-gray-400">
+              {item.to ? (
+                <Link to={item.to} className="text-white hover:text-gray-400">
                   {item.label}
-                </a>
+                </Link>
               ) : (
                 <button
                   onClick={item.onClick}
