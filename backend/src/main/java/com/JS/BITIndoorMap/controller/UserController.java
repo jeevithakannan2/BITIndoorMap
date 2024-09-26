@@ -48,9 +48,31 @@ public class UserController {
             userService.registerUser(user);
             return ResponseEntity.ok("Registration successful!");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                e.getMessage()
-            );
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{username}/roles/{roleName}")
+    public ResponseEntity<String> addRoleToUser(
+        @PathVariable String username,
+        @PathVariable String roleName
+    ) {
+        if (userService.addRoleToUser(username, roleName)) {
+            return ResponseEntity.ok("Role added successfully!");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add role");
+        }
+    }
+
+    @DeleteMapping("/{username}/roles/{roleName}")
+    public ResponseEntity<String> removeRoleFromUser(
+        @PathVariable String username,
+        @PathVariable String roleName
+    ) {
+        if (userService.removeRoleFromUser(username, roleName)) {
+            return ResponseEntity.ok("Role removed successfully!");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to remove role");
         }
     }
 

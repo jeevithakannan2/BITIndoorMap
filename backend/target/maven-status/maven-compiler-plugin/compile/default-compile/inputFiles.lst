@@ -2,4 +2,6 @@
 /home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/BitIndoorMapApplication.java
 /home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/controller/UserController.java
 /home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/entity/User.java
+/home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/entity/Role.java
 /home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/service/UserService.java
+/home/jeeva/github/BITIndoorMap/backend/src/main/java/com/JS/BITIndoorMap/repository/RoleRepository.java
