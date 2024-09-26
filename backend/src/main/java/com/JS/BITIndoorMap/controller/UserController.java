@@ -19,16 +19,25 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
-        if (
-            userService.authenticateUser(user.getUsername(), user.getPassword())
-        ) {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Login successful!");
-            response.put("username", user.getUsername());
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                Map.of("message", "Invalid credentials")
+        try {
+            if (
+                userService.authenticateUser(
+                    user.getUsername(),
+                    user.getPasswordHash()
+                )
+            ) {
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "Login successful!");
+                response.put("username", user.getUsername());
+                return ResponseEntity.ok(response);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    Map.of("message", "Invalid credentials")
+                );
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                Map.of("message", "An error occurred during login")
             );
         }
     }
